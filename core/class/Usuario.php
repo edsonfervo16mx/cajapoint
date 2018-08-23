@@ -1,7 +1,7 @@
 <?php 
 	class Usuario{
 		public function test(){
-			echo 'correo,nombre,password,nacimiento,sexo_id,status,created';
+			echo 'correo,nombre,password,nacimiento,sexo_id,status,created,vencimiento';
 		}
 
 		public function listarTodos($key){
@@ -39,15 +39,16 @@
 		public function registrar($key,$atr){
 			$stringConnection = new Connection;
 			$stringConnection->abrir($key);
-			$sql = 'INSERT INTO usuario (correo,nombre,password,nacimiento,sexo_id) VALUES (upper('.$atr['correo'].'),upper('.$atr['nombre'].'),upper('.$atr['password'].'),upper('.$atr['nacimiento'].'),upper('.$atr['sexo_id'].'))';
+			$sql = 'INSERT INTO usuario (correo,nombre,password,nacimiento,sexo_id) VALUES ("'.$atr['correo'].'","'.$atr['nombre'].'","'.$atr['password'].'","'.$atr['nacimiento'].'","'.$atr['sexo_id'].'")';
 			$res = $stringConnection->disparadorSimple($key,$sql);
+			#echo $sql;
 			return ($res);
 		}
 
 		public function modificar($key,$atr){
 			$stringConnection = new Connection;
 			$stringConnection->abrir($key);
-			$sql = 'UPDATE usuario SET correo = upper("'.$atr['correo'].'"),nombre = upper("'.$atr['nombre'].'"),nacimiento = upper("'.$atr['nacimiento'].'"),sexo_id = upper("'.$atr['sexo_id'].'") where correo = "'.$atr['correo_old'].'"';
+			$sql = 'UPDATE usuario SET correo = '.$atr['correo'].',nombre = '.$atr['nombre'].',nacimiento = '.$atr['nacimiento'].',sexo_id = '.$atr['sexo_id'].' where correo = "'.$atr['correo_old'].'"';
 			$res = $stringConnection->disparadorSimple($key,$sql);
 			return ($res);
 		}
@@ -55,7 +56,7 @@
 		public function cambiarPassword($key,$atr){
 			$stringConnection = new Connection;
 			$stringConnection->abrir($key);
-			$sql = 'UPDATE usuario SET password = upper("'.$atr['password'].'") where correo = "'.$atr['correo'].'"';
+			$sql = 'UPDATE usuario SET password = "'.$atr['password'].'" where correo = "'.$atr['correo'].'"';
 			$res = $stringConnection->disparadorSimple($key,$sql);
 			return ($res);
 		}
